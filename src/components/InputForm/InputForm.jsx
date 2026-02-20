@@ -1,18 +1,13 @@
 import { useState } from "react";
-import useFetch from "../../shared/hooks/useFetch";
-import Details from "../Details";
+import { useNavigate } from "react-router";
 
 function InputForm() {
   const [user, setUser] = useState("");
-  const [searchUserUrl, setSearchUserUrl] = useState("");
-  const [searchReposUrl, setSearchReposUrl] = useState("");
-  const { userData, isUserDataLoading } = useFetch(searchUserUrl, true);
-  const { reposData, isReposLoading } = useFetch(searchReposUrl, false);
+  const navigate = useNavigate();
 
   const handleFetch = () => {
     if (user.trim()) {
-      setSearchUserUrl(`${user}`);
-      setSearchReposUrl(`${user}/repos`);
+      navigate(`/user/${user}`);
     }
   };
 
@@ -31,11 +26,6 @@ function InputForm() {
       <button onClick={handleFetch}>GO!</button>
       <br />
       <hr></hr>
-
-      <Details
-        user={isUserDataLoading ? null : userData}
-        repos={isReposLoading ? null : reposData}
-      />
     </>
   );
 }
